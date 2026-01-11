@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/students")
+@RequestMapping("/api/students")
 @CrossOrigin("*")
 @Tag(name="Student Services", description = "Student API")
 @Validated
