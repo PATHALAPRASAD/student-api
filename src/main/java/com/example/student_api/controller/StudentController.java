@@ -64,7 +64,7 @@ public class StudentController {
 
     @PutMapping("/{id}")
     @Operation(summary = "Update Student")
-    public ResponseEntity<StudentResponseDto> updateStudent(@RequestBody UpdateStudentRequestDto updateStudentRequestDto, @Positive @PathVariable("id") int id) throws StudentNotFoundException {
+    public ResponseEntity<StudentResponseDto> updateStudent(@RequestBody UpdateStudentRequestDto updateStudentRequestDto) throws StudentNotFoundException {
         StudentResponseDto response = studentService.updateStudent(updateStudentRequestDto);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
