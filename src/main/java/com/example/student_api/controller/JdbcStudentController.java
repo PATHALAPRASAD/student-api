@@ -63,7 +63,7 @@ public class JdbcStudentController {
 
     @PutMapping("/{id}")
     @Operation(summary = "JDBC - Update Student")
-    public ResponseEntity<StudentResponseDto> updateStudent(@RequestBody UpdateStudentRequestDto updateStudentRequestDto) {
+    public ResponseEntity<StudentResponseDto> updateStudent(@Validated @RequestBody UpdateStudentRequestDto updateStudentRequestDto) {
         StudentResponseDto response = jdbcStudentService.updateStudent(updateStudentRequestDto);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
