@@ -1,6 +1,7 @@
 package com.example.student_api.repository.implmentations;
 
 import com.example.student_api.dto.AddStudentRequestDto;
+import com.example.student_api.dto.UpdateStudentRequestDto;
 import com.example.student_api.entity.StudentEntity;
 import com.example.student_api.exception.StudentNotFoundException;
 import com.example.student_api.repository.interfaces.JdbcStudentRepository;
@@ -131,5 +132,30 @@ public class JdbcStudentRepositoryImpl implements JdbcStudentRepository {
             throw new RuntimeException("Error adding student\t\t:\t" + e.getMessage());
         }
         return newStudentId;
+    }
+
+    @Override
+    public int updateStudent(UpdateStudentRequestDto updateStudentRequestDto) {
+        int affectedRows;
+        String query = "UPDATE student set name=?, roll_number=?, college=?, course=?, branch=?, average=?, grade=? WHERE id=?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, updateStudentRequestDto.getName());
+            pstmt.setString(2, updateStudentRequestDto.getRollNumber());
+            pstmt.setString(3, updateStudentRequestDto.getCollege());
+            pstmt.setString(4, updateStudentRequestDto.getCourse());
+            pstmt.setString(5, updateStudentRequestDto.getBranch());
+            pstmt.setDouble(6, updateStudentRequestDto.getAverage());
+            pstmt.setString(7, String.valueOf(updateStudentRequestDto.getGrade()));
+            pstmt.setInt(8, updateStudentRequestDto.getId());
+
+            affectedRows = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+            throw new RuntimeException("Error updating student\t\t:\t" + e.getMessage());
+        }
+        System.out.println("affectedRows : " + affectedRows);
+        return affectedRows;
     }
 }

@@ -10,12 +10,12 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 public class StudentResponseDto {
-    private int id;
+    private Integer id;
     private String name;
     private String rollNumber;
     private String course;
     private String branch;
     private String college;
-    private double average;
-    private char grade;
+    private Double average;
+    private Character grade;
 }

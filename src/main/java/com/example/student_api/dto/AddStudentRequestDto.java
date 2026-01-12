@@ -13,13 +13,13 @@ public class AddStudentRequestDto {
 
     @Schema(example = "prasad")
     @NotBlank(message = "Name {not.blank}")
-//    @Pattern(regexp = "^[ a-zA-Z]{1,20}$", message = "Name {max.chars.20}")
+//    @Pattern(regexp = "^[ a-zA-Z]{3,20}$", message = "Name {max.chars.20}")
 
     // generalized way
-//    @Size(min = 5, max = 20, message = "Name should be min 5 chars and max 20 chars")
+//    @Size(min = 3, max = 20, message = "Name should be min 3 chars and max 20 chars")
     // specified way
     @Size.List({
-            @Size(min = 5, message = "Name {not.lt} {min} {chars}"),
+            @Size(min = 3, message = "Name {not.lt} {min} {chars}"),
             @Size(max = 20, message = "Name {not.gt} {max} {chars}")
     })
     private String name;

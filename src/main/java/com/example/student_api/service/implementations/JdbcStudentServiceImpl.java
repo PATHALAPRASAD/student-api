@@ -2,6 +2,7 @@ package com.example.student_api.service.implementations;
 
 import com.example.student_api.dto.AddStudentRequestDto;
 import com.example.student_api.dto.StudentResponseDto;
+import com.example.student_api.dto.UpdateStudentRequestDto;
 import com.example.student_api.exception.ConflictException;
 import com.example.student_api.exception.StudentNotFoundException;
 import com.example.student_api.repository.interfaces.JdbcStudentRepository;
@@ -58,5 +59,10 @@ public class JdbcStudentServiceImpl implements JdbcStudentService {
             throw new ConflictException("Unable to add student\t\t:\t" + addStudentRequestDto.toString());
         }
 
+    }
+
+    @Override
+    public StudentResponseDto updateStudent(UpdateStudentRequestDto updateStudentRequestDto) {
+        return jdbcStudentRepository.updateStudent(updateStudentRequestDto) > 0 ? MapperUtils.map(updateStudentRequestDto, StudentResponseDto.class) : null;
     }
 }

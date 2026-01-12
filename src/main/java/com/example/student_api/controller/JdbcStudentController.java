@@ -2,6 +2,7 @@ package com.example.student_api.controller;
 
 import com.example.student_api.dto.AddStudentRequestDto;
 import com.example.student_api.dto.StudentResponseDto;
+import com.example.student_api.dto.UpdateStudentRequestDto;
 import com.example.student_api.exception.ConflictException;
 import com.example.student_api.exception.StudentNotFoundException;
 import com.example.student_api.service.interfaces.JdbcStudentService;
@@ -57,6 +58,13 @@ public class JdbcStudentController {
     @Operation(summary = "JDBC - Add Student")
     public ResponseEntity<StudentResponseDto> addStudent(@Validated @RequestBody AddStudentRequestDto addStudentRequestDto) throws ConflictException {
         StudentResponseDto response = jdbcStudentService.addStudent(addStudentRequestDto);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+
+    @PutMapping("/{id}")
+    @Operation(summary = "JDBC - Update Student")
+    public ResponseEntity<StudentResponseDto> updateStudent(@RequestBody UpdateStudentRequestDto updateStudentRequestDto) {
+        StudentResponseDto response = jdbcStudentService.updateStudent(updateStudentRequestDto);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 }
