@@ -19,7 +19,7 @@ public class AddStudentRequestDto {
 //    @Size(min = 5, max = 20, message = "Name should be min 5 chars and max 20 chars")
     // specified way
     @Size.List({
-            @Size(min = 3, message = "Name {not.lt} {min} {chars}"),
+            @Size(min = 8, message = "Name {not.lt} {min} {chars}"),
             @Size(max = 20, message = "Name {not.gt} {max} {chars}")
     })
     private String name;
