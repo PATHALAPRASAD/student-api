@@ -1,0 +1,62 @@
+package com.example.student_api.controller;
+
+import com.example.student_api.dto.AddStudentRequestDto;
+import com.example.student_api.dto.StudentResponseDto;
+import com.example.student_api.exception.ConflictException;
+import com.example.student_api.exception.StudentNotFoundException;
+import com.example.student_api.service.interfaces.JdbcStudentService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/jdbc-students")
+@CrossOrigin("*")
+@Tag(name="JDBC Student Services", description = "JDBC - Student API")
+@Validated
+public class JdbcStudentController {
+
+    @Autowired
+    JdbcStudentService jdbcStudentService;
+
+    @GetMapping
+    @Operation(summary = "JDBC - Get All Students")
+    public ResponseEntity<List<StudentResponseDto>> getAllStudents() {
+        List<StudentResponseDto> response = jdbcStudentService.getAllStudents();
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/{id}")
+    @Operation(summary = "JDBC - Get Student by Id")
+    public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable("id") int id) throws StudentNotFoundException {
+        StudentResponseDto response = jdbcStudentService.getStudentById(id);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/average-greater-than/{average}")
+    @Operation(summary = "JDBC - Get All Students whose average greater than entered average")
+    public ResponseEntity<List<StudentResponseDto>> getStudentsAverageGreaterThan(@PathVariable("average") double average) {
+        List<StudentResponseDto> response = jdbcStudentService.getStudentsByAverageGreaterThan(average);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+
+    @GetMapping("/rollNumber/{rollNumber}")
+    @Operation(summary = "JDBC - Get All Students whose average greater than entered average")
+    public ResponseEntity<StudentResponseDto> getStudentByRollNumber(@PathVariable("rollNumber") String rollNumber) throws StudentNotFoundException {
+        StudentResponseDto response = jdbcStudentService.getStudentByRollNumber(rollNumber);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+
+    @PostMapping
+    @Operation(summary = "JDBC - Add Student")
+    public ResponseEntity<StudentResponseDto> addStudent(@Validated @RequestBody AddStudentRequestDto addStudentRequestDto) throws ConflictException {
+        StudentResponseDto response = jdbcStudentService.addStudent(addStudentRequestDto);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+}

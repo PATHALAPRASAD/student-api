@@ -6,7 +6,7 @@ import com.example.student_api.dto.UpdateStudentRequestDto;
 import com.example.student_api.entity.StudentEntity;
 import com.example.student_api.exception.ConflictException;
 import com.example.student_api.exception.StudentNotFoundException;
-import com.example.student_api.repository.StudentRepository;
+import com.example.student_api.repository.interfaces.StudentRepository;
 import com.example.student_api.service.interfaces.StudentService;
 import com.example.student_api.util.MapperUtils;
 import jakarta.transaction.Transactional;
@@ -91,12 +91,11 @@ public class StudentServiceImpl implements StudentService {
 
     @Override
     public StudentResponseDto deleteStudentByRollNumber(String rollNumber) throws StudentNotFoundException {
-        List<StudentEntity> studentEntities = studentRepository.findByRollNumber(rollNumber);
-        if (studentEntities.isEmpty()) {
+        if (studentRepository.findByRollNumber(rollNumber).isEmpty()) {
             throw new StudentNotFoundException(environment.getProperty("STUDENT_NOT_FOUND"));
         }
-        studentRepository.deleteByRollNumber(rollNumber);
-        return MapperUtils.map(studentEntities.get(0), StudentResponseDto.class);
+        StudentEntity deletedStudent = studentRepository.deleteByRollNumber(rollNumber);
+        return MapperUtils.map(deletedStudent, StudentResponseDto.class);
     }
 
     @Override

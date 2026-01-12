@@ -1,8 +1,8 @@
-package com.example.student_api.repository;
+package com.example.student_api.repository.interfaces;
 
 import com.example.student_api.entity.StudentEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Query;
+//import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 

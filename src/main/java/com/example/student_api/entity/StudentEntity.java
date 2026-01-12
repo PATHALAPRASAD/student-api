@@ -25,7 +25,7 @@ public class StudentEntity {
     @Column(name = "name", nullable = false, length = 20)
     private String name;
 
-    @Column(name = "roll_number", nullable = false, length = 20)
+    @Column(name = "roll_number", nullable = false, length = 20, unique = true)
     private String rollNumber;
 
     @Column(name = "course", nullable = false, length = 20)
