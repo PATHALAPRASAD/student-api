@@ -28,7 +28,7 @@ public class UpdateStudentRequestDto {
 
     @Schema(example = "101")
     @NotBlank(message = "Roll Number {not.blank}")
-    @Pattern(regexp = "^[ a-zA-Z0-9]{1,20}$", message = "Roll Number {max.chars.20}")
+    @Pattern(regexp = "^[ a-zA-Z0-9]{0,20}$", message = "Roll Number {max.chars.20}")
     private String rollNumber;
 
     @Schema(example = "95.82")
@@ -40,12 +40,12 @@ public class UpdateStudentRequestDto {
 
     @Schema(example = "btech")
     @NotBlank(message = "Course {not.blank}")
-    @Pattern(regexp = "^[ a-zA-Z]{1,20}$", message = "Course {max.chars.20}")
+    @Pattern(regexp = "^[ a-zA-Z]{0,20}$", message = "Course {max.chars.20}")
     private String course;
 
     @Schema(example = "cse")
     @NotBlank(message = "Branch {not.blank}")
-    @Pattern(regexp = "^[ a-zA-Z]{1,20}$", message = "Branch {max.chars.20}")
+    @Pattern(regexp = "^[ a-zA-Z]{0,20}$", message = "Branch {max.chars.20}")
     private String branch;
 
     @Schema(example = "aven")
