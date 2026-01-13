@@ -15,4 +15,6 @@ public interface JdbcStudentRepository {
     int addStudent(AddStudentRequestDto addStudentRequestDto);
     int updateStudent(UpdateStudentRequestDto updateStudentRequestDto);
     int updateCollege(int id, String college);
+    int deleteStudent(int id);
+    int deleteStudent(String rollNumber);
 }

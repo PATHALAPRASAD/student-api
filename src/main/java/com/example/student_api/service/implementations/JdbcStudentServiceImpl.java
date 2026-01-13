@@ -77,4 +77,34 @@ public class JdbcStudentServiceImpl implements JdbcStudentService {
             throw new StudentNotFoundException(environment.getProperty("STUDENT_NOT_FOUND"));
         }
     }
+
+    @Override
+    public StudentResponseDto deleteStudent(int id) throws StudentNotFoundException, ConflictException {
+        StudentEntity studentEntity = jdbcStudentRepository.getStudentById(id);
+        if (studentEntity == null) {
+            throw new StudentNotFoundException(environment.getProperty("STUDENT_NOT_FOUND"));
+        } else {
+            int affectedRows = jdbcStudentRepository.deleteStudent(id);
+            if (affectedRows > 0) {
+                return MapperUtils.map(studentEntity, StudentResponseDto.class);
+            } else {
+                throw new ConflictException("Unable to delete student with id : " + id);
+            }
+        }
+    }
+
+    @Override
+    public StudentResponseDto deleteStudent(String rollNumber) throws StudentNotFoundException, ConflictException {
+        StudentEntity studentEntity = jdbcStudentRepository.getStudentByRollNumber(rollNumber);
+        if (studentEntity == null) {
+            throw new StudentNotFoundException(environment.getProperty("STUDENT_NOT_FOUND"));
+        } else {
+            int affectedRows = jdbcStudentRepository.deleteStudent(rollNumber);
+            if (affectedRows > 0) {
+                return MapperUtils.map(studentEntity, StudentResponseDto.class);
+            } else {
+                throw new ConflictException("Unable to delete student with rollNumber : " + rollNumber);
+            }
+        }
+    }
 }

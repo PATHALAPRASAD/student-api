@@ -38,7 +38,7 @@ public class JdbcStudentController {
 
     @GetMapping("/{id}")
     @Operation(summary = "JDBC - Get Student by Id")
-    public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable("id") int id) throws StudentNotFoundException {
+    public ResponseEntity<StudentResponseDto> getStudentById(@PathVariable("id") int id) {
         StudentResponseDto response = jdbcStudentService.getStudentById(id);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
@@ -75,6 +75,20 @@ public class JdbcStudentController {
     @Operation(summary = "JDBC - Update College Field By ID")
     public ResponseEntity<StudentResponseDto> updateCollege(@Positive @PathVariable("id") int id, @PathVariable("college") String college) throws StudentNotFoundException {
         StudentResponseDto response = jdbcStudentService.updateCollege(id, college);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/{id}")
+    @Operation(summary = "JDBC - Delete Student")
+    public ResponseEntity<StudentResponseDto> deleteStudent(@PathVariable("id") int id) throws StudentNotFoundException, ConflictException {
+        StudentResponseDto response = jdbcStudentService.deleteStudent(id);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+
+    @DeleteMapping("/rno/{rno}")
+    @Operation(summary = "Delete Student By Roll Number")
+    public ResponseEntity<StudentResponseDto> deleteStudentByRollNumber(@PathVariable("rno") String rollNumber) throws StudentNotFoundException, ConflictException {
+        StudentResponseDto response = jdbcStudentService.deleteStudent(rollNumber);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 }

@@ -177,4 +177,39 @@ public class JdbcStudentRepositoryImpl implements JdbcStudentRepository {
         System.out.println("updateCollege affectedRows : " + affectedRows);
         return affectedRows;
     }
+
+    @Override
+    public int deleteStudent(int id) {
+        int affectedRows;
+        String query = "DELETE FROM student WHERE id=?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setInt(1, id);
+
+            affectedRows = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+            throw new RuntimeException("Error deleting student\t\t:\t" + e.getMessage());
+        }
+        System.out.println("deleteStudent affectedRows : " + affectedRows);
+        return affectedRows;
+    }
+
+    @Override
+    public int deleteStudent(String rollNumber) {
+        int affectedRows;
+        String query = "DELETE FROM student WHERE roll_number=?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, rollNumber);
+
+            affectedRows = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Error deleting student by rollNumber\t\t:\t" + e.getMessage());
+        }
+        System.out.println("deleteStudent affectedRows : " + affectedRows);
+        return affectedRows;
+    }
 }
