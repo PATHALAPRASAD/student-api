@@ -137,7 +137,7 @@ public class JdbcStudentRepositoryImpl implements JdbcStudentRepository {
     @Override
     public int updateStudent(UpdateStudentRequestDto updateStudentRequestDto) {
         int affectedRows;
-        String query = "UPDATE student set name=?, roll_number=?, college=?, course=?, branch=?, average=?, grade=? WHERE id=?";
+        String query = "UPDATE student SET name=?, roll_number=?, college=?, course=?, branch=?, average=?, grade=? WHERE id=?";
 
         try (Connection conn = dataSource.getConnection();
              PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
@@ -156,6 +156,25 @@ public class JdbcStudentRepositoryImpl implements JdbcStudentRepository {
             throw new RuntimeException("Error updating student\t\t:\t" + e.getMessage());
         }
         System.out.println("affectedRows : " + affectedRows);
+        return affectedRows;
+    }
+
+    @Override
+    public int updateCollege(int id, String college) {
+        int affectedRows;
+        String query = "UPDATE student SET college=? WHERE id=?";
+
+        try (Connection conn = dataSource.getConnection();
+             PreparedStatement pstmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS)) {
+            pstmt.setString(1, college);
+            pstmt.setInt(2, id);
+
+            affectedRows = pstmt.executeUpdate();
+        } catch (SQLException e) {
+            System.out.println(e.toString());
+            throw new RuntimeException("Error updating student\t\t:\t" + e.getMessage());
+        }
+        System.out.println("updateCollege affectedRows : " + affectedRows);
         return affectedRows;
     }
 }

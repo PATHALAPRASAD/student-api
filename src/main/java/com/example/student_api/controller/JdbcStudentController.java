@@ -8,6 +8,9 @@ import com.example.student_api.exception.StudentNotFoundException;
 import com.example.student_api.service.interfaces.JdbcStudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -65,6 +68,13 @@ public class JdbcStudentController {
     @Operation(summary = "JDBC - Update Student")
     public ResponseEntity<StudentResponseDto> updateStudent(@Validated @RequestBody UpdateStudentRequestDto updateStudentRequestDto) {
         StudentResponseDto response = jdbcStudentService.updateStudent(updateStudentRequestDto);
+        return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
+    }
+
+    @PatchMapping("/{id}/{college}")
+    @Operation(summary = "JDBC - Update College Field By ID")
+    public ResponseEntity<StudentResponseDto> updateCollege(@Positive @PathVariable("id") int id, @PathVariable("college") String college) throws StudentNotFoundException {
+        StudentResponseDto response = jdbcStudentService.updateCollege(id, college);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 }

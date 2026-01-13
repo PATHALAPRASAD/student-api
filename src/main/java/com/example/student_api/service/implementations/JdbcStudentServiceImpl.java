@@ -3,6 +3,7 @@ package com.example.student_api.service.implementations;
 import com.example.student_api.dto.AddStudentRequestDto;
 import com.example.student_api.dto.StudentResponseDto;
 import com.example.student_api.dto.UpdateStudentRequestDto;
+import com.example.student_api.entity.StudentEntity;
 import com.example.student_api.exception.ConflictException;
 import com.example.student_api.exception.StudentNotFoundException;
 import com.example.student_api.repository.interfaces.JdbcStudentRepository;
@@ -64,5 +65,16 @@ public class JdbcStudentServiceImpl implements JdbcStudentService {
     @Override
     public StudentResponseDto updateStudent(UpdateStudentRequestDto updateStudentRequestDto) {
         return jdbcStudentRepository.updateStudent(updateStudentRequestDto) > 0 ? MapperUtils.map(updateStudentRequestDto, StudentResponseDto.class) : null;
+    }
+
+    @Override
+    public StudentResponseDto updateCollege(int id, String college) throws StudentNotFoundException {
+        int affectedRows = jdbcStudentRepository.updateCollege(id, college);
+        if (affectedRows > 0) {
+            StudentEntity studentEntity = jdbcStudentRepository.getStudentById(id);
+            return MapperUtils.map(studentEntity, StudentResponseDto.class);
+        } else {
+            throw new StudentNotFoundException(environment.getProperty("STUDENT_NOT_FOUND"));
+        }
     }
 }

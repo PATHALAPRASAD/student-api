@@ -15,4 +15,5 @@ public interface JdbcStudentService {
     StudentResponseDto getStudentByRollNumber(String rollNumber) throws StudentNotFoundException;
     StudentResponseDto addStudent(AddStudentRequestDto addStudentRequestDto) throws ConflictException;
     StudentResponseDto updateStudent(UpdateStudentRequestDto updateStudentRequestDto);
+    StudentResponseDto updateCollege(int id, String college) throws StudentNotFoundException;
 }

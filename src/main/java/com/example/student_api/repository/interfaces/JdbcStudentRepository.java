@@ -14,4 +14,5 @@ public interface JdbcStudentRepository {
     StudentEntity getStudentByRollNumber(String rollNumber) throws StudentNotFoundException;
     int addStudent(AddStudentRequestDto addStudentRequestDto);
     int updateStudent(UpdateStudentRequestDto updateStudentRequestDto);
+    int updateCollege(int id, String college);
 }
