@@ -9,6 +9,7 @@ import com.example.student_api.service.interfaces.JdbcStudentService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Positive;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,21 +60,21 @@ public class JdbcStudentController {
 
     @PostMapping
     @Operation(summary = "JDBC - Add Student")
-    public ResponseEntity<StudentResponseDto> addStudent(@Validated @RequestBody AddStudentRequestDto addStudentRequestDto) throws ConflictException {
+    public ResponseEntity<StudentResponseDto> addStudent(@Valid @RequestBody AddStudentRequestDto addStudentRequestDto) throws ConflictException {
         StudentResponseDto response = jdbcStudentService.addStudent(addStudentRequestDto);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
     @PutMapping("/{id}")
     @Operation(summary = "JDBC - Update Student")
-    public ResponseEntity<StudentResponseDto> updateStudent(@Validated @RequestBody UpdateStudentRequestDto updateStudentRequestDto) {
+    public ResponseEntity<StudentResponseDto> updateStudent(@Valid @RequestBody UpdateStudentRequestDto updateStudentRequestDto) {
         StudentResponseDto response = jdbcStudentService.updateStudent(updateStudentRequestDto);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
 
     @PatchMapping("/{id}/{college}")
     @Operation(summary = "JDBC - Update College Field By ID")
-    public ResponseEntity<StudentResponseDto> updateCollege(@Positive @PathVariable("id") int id, @PathVariable("college") String college) throws StudentNotFoundException {
+    public ResponseEntity<StudentResponseDto> updateCollege(@Positive(message = "ID {should.positive}") @Min(value = 1, message = "User ID must be greater than or equal to 1") @PathVariable("id") Integer id, @PathVariable("college") String college) throws StudentNotFoundException {
         StudentResponseDto response = jdbcStudentService.updateCollege(id, college);
         return new ResponseEntity<>(response, HttpStatus.ACCEPTED);
     }
